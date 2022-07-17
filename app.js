@@ -1,15 +1,20 @@
 const express = require("express");
+const bodyParser = require("body-parser");
 const https = require("https");
 
 const app = express();
+app.use(bodyParser.urlencoded({ extended: true }));
 
 app.get("/", (req, res) => {
-    const url = "https://api.openweathermap.org/data/2.5/weather?q=lahore&appid=16c24c389cc2ecfc951f6b654c35646a&units=metric";
-    https.get(url , (response) => {
-        console.log(response);
-    });
-    res.send("server is up and running");
+    res.sendFile(__dirname + "/index.html");
 });
+
+app.post("/", (req, res) => {
+    res.write(req.body.cityName);
+    res.write("post request received!");
+    res.send(); 
+});
+
 
 app.listen(3000, () => {
     console.log("server is running on port 3000");
